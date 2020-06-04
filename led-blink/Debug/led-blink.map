@@ -2360,7 +2360,7 @@ END GROUP
  .debug_abbrev  0x0000000000001a73       0xa5 ./system/src/cmsis/vectors_stm32f10x.o
  .debug_abbrev  0x0000000000001b18      0x29d ./src/main.o
 
-.debug_line     0x0000000000000000     0x5e0c
+.debug_line     0x0000000000000000     0x5e0d
  *(.debug_line)
  .debug_line    0x0000000000000000      0xe5e ./system/src/stm32f1-stdperiph/stm32f10x_gpio.o
  .debug_line    0x0000000000000e5e      0xf20 ./system/src/stm32f1-stdperiph/stm32f10x_rcc.o
@@ -2375,7 +2375,7 @@ END GROUP
  .debug_line    0x0000000000004560      0x8fe ./system/src/cortexm/exception_handlers.o
  .debug_line    0x0000000000004e5e      0x6f9 ./system/src/cmsis/system_stm32f10x.o
  .debug_line    0x0000000000005557      0x268 ./system/src/cmsis/vectors_stm32f10x.o
- .debug_line    0x00000000000057bf      0x64d ./src/main.o
+ .debug_line    0x00000000000057bf      0x64e ./src/main.o
 
 .debug_frame    0x0000000000000000      0xf6c
  *(.debug_frame)

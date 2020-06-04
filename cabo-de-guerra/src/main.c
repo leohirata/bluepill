@@ -2,7 +2,7 @@
 *
 * data: sexta, 29 de maio de 2020
 *
-* Experimento 1.5?: Cabo de guerra
+* Experimento 1.4: Cabo de guerra
 *
 * Neste experimento, deverá ser implementado o jogo de cabo de guerra usando
 * push-buttons e a placa que contém 7 leds. O jogo deve ser feito para duas
@@ -10,11 +10,12 @@
 *
 * Faça o jogo da maneira que achar melhor.
 *
- */
+*/
 
 // ----------------------------------------------------------------------------
+/* ============================ CÓDIGO EXEMPLO ============================= */
 
-#include <stm32f10_conf.h>
+#include <stm32f10x_conf.h>
 
 #define BOT_RESET GPIO_Pin_0
 #define BOT_1     GPIO_Pin_1
@@ -25,20 +26,24 @@
 
 typedef struct
 {
-  atual = 0;
-  anterior = 0;
+  uint8_t atual;
+  uint8_t anterior;
 } estado_pb;
 
 uint8_t pontos_1 = 0;
 uint8_t pontos_2 = 0;
 
 void Conf_GPIO(void);
-void Detecta_Borda(GPIO_TypeDef* porta, uint8_t pino, estado_pb* botao);
+int Detecta_Borda(GPIO_TypeDef* porta, uint8_t pino, estado_pb* botao);
 void Reseta_Jogo(void);
 
 int main(void)
 {
   estado_pb botao1, botao2;
+  botao1.anterior = 0;
+  botao1.atual = 0;
+  botao2.anterior = 0;
+  botao2.atual = 0;
 
   int cabo = 0;
 
@@ -83,7 +88,7 @@ int main(void)
       switch(pontos_2)
       {
         case 1: 
-          GPIO_WriteBit(GPIOB, GPIO_Pin_6 ACESO);
+          GPIO_WriteBit(GPIOB, GPIO_Pin_6, ACESO);
           break;
         case 2:
           GPIO_WriteBit(GPIOB, GPIO_Pin_5, ACESO);
@@ -115,17 +120,17 @@ void Conf_GPIO(void)
   portaA.GPIO_Mode = GPIO_Mode_IN_FLOATING;
   portaA.GPIO_Pin = BOT_RESET | BOT_1 | BOT_2;
   portaA.GPIO_Speed = GPIO_Speed_2MHz;
-  GPIO_Init(GPIOA, &portA);
+  GPIO_Init(GPIOA, &portaA);
 
   GPIO_InitTypeDef portaB;
   portaB.GPIO_Mode = GPIO_Mode_Out_PP;
   portaB.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3
                  | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6;
   portaB.GPIO_Speed = GPIO_Speed_2MHz;
-  GPIO_Init(GPIOB, &portB); 
+  GPIO_Init(GPIOB, &portaB);
 }
 
-void Detecta_Borda(GPIO_TypeDef* porta, uint8_t pino, estado_pb* botao)
+int Detecta_Borda(GPIO_TypeDef* porta, uint8_t pino, estado_pb* botao)
 {
   botao->anterior = botao->atual;
   botao->atual = GPIO_ReadInputDataBit(porta, pino);
@@ -137,8 +142,8 @@ void Reseta_Jogo(void)
 {
   GPIO_WriteBit(GPIOB, GPIO_Pin_All, APAGADO);
 
-  uint8_t pontos_1 = 0;
-  uint8_t pontos_2 = 0;
+  pontos_1 = 0;
+  pontos_2 = 0;
 }
 
 // ----------------------------------------------------------------------------

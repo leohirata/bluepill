@@ -40,9 +40,8 @@ O campo SPEED não afeta o clock, mas afeta a potência consumida pelo pino. Usa
 frequência possível.
 */
 
-/* ============================ CÓDIGO EXEMPLO ============================= */
-
 // ----------------------------------------------------------------------------
+/* ============================ CÓDIGO EXEMPLO ============================= */
 
 #include <stdio.h>
 #include <stm32f10x_conf.h>

@@ -1,5 +1,4 @@
 /*
-
 * data: quinta, 28 de maio de 2020
 *
 * Experimento 1.3: Joystick com push-buttons
@@ -13,26 +12,23 @@
 * pressionado irá aparecer no semihosting.
 *
 * OBS: Habilite o semihosting na criação do projeto.
-
 */
 
-/* ============================ CÓDIGO EXEMPLO ============================= */
-
 // ----------------------------------------------------------------------------
+/* ============================ CÓDIGO EXEMPLO ============================= */
 
 #include <stdio.h>
 #include <stm32f10x_conf.h>
 
-void Conf_GPIO(void);
-
 typedef struct
 {
   uint8_t atual;
-  uint8_t anterior = 0;
+  uint8_t anterior;
 } estado_pb;
 
 typedef enum 
 {
+  erro = -1,
   esquerdo = 0,
   direito,
   cima,
@@ -40,32 +36,54 @@ typedef enum
   centro
 } estado;
 
+void Conf_GPIO(void);
+int Estado_Botao(estado_pb* bot_esquerdo, estado_pb* bot_direito, 
+                estado_pb* bot_cima, estado_pb* bot_baixo, 
+                estado_pb* bot_centro);
 
 int main(void)
 {
 
   Conf_GPIO();
 
-  estado_pb* botao;
+  estado_pb bot_esquerdo, bot_direito, bot_cima, bot_baixo, bot_centro;
   estado joystick;
+
+  bot_esquerdo.anterior = 0;
+  bot_esquerdo.atual = 0;
+  bot_direito.anterior = 0;
+  bot_direito.atual = 0;
+  bot_cima.anterior = 0;
+  bot_cima.atual = 0;
+  bot_baixo.anterior = 0;
+  bot_baixo.atual = 0;  
+  bot_centro.anterior = 0;
+  bot_centro.atual = 0;
+
 
 	while(1)
 	{
-    joystick = Estado_Botao;
+    joystick = Estado_Botao(&bot_esquerdo, &bot_direito, &bot_cima,
+                            &bot_baixo, &bot_centro);
       switch (joystick)
       {
+        case erro:
+          break;
         case esquerdo:
           printf("Esquerda\n");
+          break;
         case direito:
           printf("Direita\n");
+          break;
         case cima:
           printf("Cima\n");
+          break;
         case baixo:
           printf("Baixo\n");
+          break;
         case centro:
           printf("Centro\n");
-        default:
-          break;  
+          break; 
       }
     }
 
@@ -74,53 +92,62 @@ int main(void)
 
 void Conf_GPIO(void)
 {
-  RCC_APB2Periph(RCC_APB2Periph_GPIOA, ENABLE);
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
-  GPIO_InitTypeDef portA;
-  portA.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-  portA.GPIO_Pin = GPIO_Pin_0
+  GPIO_InitTypeDef portaA;
+  portaA.GPIO_Mode = GPIO_Mode_IPD;
+  portaA.GPIO_Pin = GPIO_Pin_0
                  | GPIO_Pin_1
                  | GPIO_Pin_2
                  | GPIO_Pin_3
                  | GPIO_Pin_4;
-  portA.GPIO_Speed = GPIO_Speed_2MHz;
-  GPIO_Init(GPIOA, &portA);
+  portaA.GPIO_Speed = GPIO_Speed_2MHz;
+  GPIO_Init(GPIOA, &portaA);
 }
 
-int Estado_Botao(void)
+int Estado_Botao(estado_pb* bot_esquerdo, estado_pb* bot_direito, 
+                estado_pb* bot_cima, estado_pb* bot_baixo, 
+                estado_pb* bot_centro)
 {
-  estado_pb esquerdo, direito, cima, baixo, centro;
+  bot_esquerdo->atual = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0);
+  bot_direito->atual = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1);
+  bot_cima->atual = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_2);
+  bot_baixo->atual = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_3);
+  bot_centro->atual = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4);
 
-  esquerdo.atual = GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_0);
-  direito.atual = GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_1);
-  cima.atual = GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_2);
-  baixo.atual = GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_3);
-  centro.atual = GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_4);
-
-  if (esquerdo->atual > esquerdo->anterior)
+  if (bot_esquerdo->atual > bot_esquerdo->anterior)
   {
-    esquerdo->anterior = esquerdo->atual;
+    bot_esquerdo->anterior = bot_esquerdo->atual;
     return 0;
   }
-  else if (direito->atual > direito->anterior)
+  else if (bot_direito->atual > bot_direito->anterior)
   {
-    direito->anterior = direito->atual;
+    bot_direito->anterior = bot_direito->atual;
     return 1;
   }
-  else if (cima->atual > cima->anterior)
+  else if (bot_cima->atual > bot_cima->anterior)
   {
-    cima->anterior = cima->atual;
+    bot_cima->anterior = bot_cima->atual;
     return 2;
   }
-  else if (baixo->atual > baixo->anterior)
+  else if (bot_baixo->atual > bot_baixo->anterior)
   {
-    baixo->anterior = baixo->atual;
+    bot_baixo->anterior = bot_baixo->atual;
     return 3;
   }
-  else if (centro->atual > centro->anterior)
+  else if (bot_centro->atual > bot_centro->anterior)
   {
-    centro->anterior = centro->atual;
+    bot_centro->anterior = bot_centro->atual;
     return 4;
+  }
+  else
+  {
+	bot_esquerdo->anterior = bot_esquerdo->atual;
+	bot_direito->anterior = bot_direito->atual;
+	bot_cima->anterior = bot_cima->atual;
+	bot_baixo->anterior = bot_baixo->atual;
+	bot_centro->anterior = bot_centro->atual;
+	return -1;
   }
 }
 
