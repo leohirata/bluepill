@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>tim-ic</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
+			<triggers>full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.cdt.core.cnature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+		<nature>org.eclipse.cdt.core.ccnature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>include/shields.h</name>
+			<type>1</type>
+			<location>/home/leo/eclipse/eclipse-workspace/Experimento 3/tim-ic/include/shields.h</location>
+		</link>
+		<link>
+			<name>include/stm32f10x_it.h</name>
+			<type>1</type>
+			<location>/home/leo/eclipse/eclipse-workspace/Experimento 3/tim-ic/include/stm32f10x_it.h</location>
+		</link>
+		<link>
+			<name>src/shields.c</name>
+			<type>1</type>
+			<location>/home/leo/eclipse/eclipse-workspace/Experimento 3/tim-ic/src/shields.c</location>
+		</link>
+		<link>
+			<name>src/stm32f10x_it.c</name>
+			<type>1</type>
+			<location>/home/leo/eclipse/eclipse-workspace/Experimento 3/tim-ic/src/stm32f10x_it.c</location>
+		</link>
+		<link>
+			<name>src/stm32f10x_tim.c</name>
+			<type>1</type>
+			<location>/home/leo/eclipse/eclipse-workspace/Experimento 3/tim-gpio/system/src/stm32f1-stdperiph/stm32f10x_tim.c</location>
+		</link>
+	</linkedResources>
+</projectDescription>

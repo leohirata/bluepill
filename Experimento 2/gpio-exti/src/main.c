@@ -32,7 +32,6 @@ Explicar que a interrupção da EXTI realiza a mesma função que a Detecta_Bord
 /* ============================ CÓDIGO EXEMPLO ============================= */
 // ----------------------------------------------------------------------------
 
-#include <stdio.h>
 #include <stm32f10x_conf.h>
 #include "stm32f10x_it.h"
 #include "shields.h"
@@ -41,7 +40,7 @@ void Conf_EXTI(void);
 void Conf_NVIC(void);
 
 int main(void)
-{
+{  
   Conf_NVIC();
   Conf_EXTI();
   Conf_GPIO();
@@ -51,6 +50,7 @@ int main(void)
 
   }
 
+  return 0;
 }
 
 void Conf_EXTI(void)
@@ -76,7 +76,7 @@ void Conf_NVIC(void)
   NVIC_InitTypeDef it;
   it.NVIC_IRQChannel = EXTI0_IRQn;
   it.NVIC_IRQChannelCmd = ENABLE;
-  it.NVIC_IRQChannelPreemptionPriority = 1;
+  it.NVIC_IRQChannelPreemptionPriority = 0;
   it.NVIC_IRQChannelSubPriority = 0;
   NVIC_Init(&it);
 

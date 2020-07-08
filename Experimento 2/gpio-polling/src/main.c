@@ -32,7 +32,6 @@ Explicar que a interrupção da EXTI realiza a mesma função que a Detecta_Bord
 /* ============================ CÓDIGO EXEMPLO ============================= */
 // ----------------------------------------------------------------------------
 
-#include <stdio.h>
 #include <stm32f10x_conf.h>
 #include "shields.h"
 
@@ -53,6 +52,8 @@ int main(void)
       EXTI_ClearFlag(EXTI_Line0);
     }
   }
+
+  return 0;
 }
 
 void Conf_EXTI(void)
@@ -61,12 +62,12 @@ void Conf_EXTI(void)
 
   GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource0);
 
-  EXTI_InitTypeDef portas;
-  portas.EXTI_Line = EXTI_Line0;
-  portas.EXTI_LineCmd = ENABLE;
-  portas.EXTI_Mode = EXTI_Mode_Interrupt;
-  portas.EXTI_Trigger = EXTI_Trigger_Rising;
-  EXTI_Init(&portas);
+  EXTI_InitTypeDef portaB;
+  portaB.EXTI_Line = EXTI_Line0;
+  portaB.EXTI_LineCmd = ENABLE;
+  portaB.EXTI_Mode = EXTI_Mode_Interrupt;
+  portaB.EXTI_Trigger = EXTI_Trigger_Rising;
+  EXTI_Init(&portaB);
 }
 
 // ----------------------------------------------------------------------------
